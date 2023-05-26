@@ -16,20 +16,20 @@ class App extends Component {
     this.setState({
       [name]: this.state[name] + 1,
     });
-    this.countTotalFeedback(name);
+    this.countTotalFeedback();
   };
-  countTotalFeedback = ({ name }) => {
+  countTotalFeedback = () => {
     const { neutral, bad, good } = this.state;
+    const totalPer = neutral + bad + good + 1;
     this.setState({
-      total: neutral + bad + good + 1,
+      total: totalPer,
     });
-    this.countPositiveFeedbackPercentage(name);
+    this.countPositiveFeedbackPercentage(totalPer);
   };
-  countPositiveFeedbackPercentage = name => {
-    const { good, total } = this.state;
-    this.setState({
-      percent: Math.round((good / total) * 100),
-    });
+  countPositiveFeedbackPercentage = total => {
+    this.setState(prevState => ({
+      percent: Math.round((prevState.good / total) * 100),
+    }));
   };
   render() {
     const { good, neutral, bad, total, percent } = this.state;
